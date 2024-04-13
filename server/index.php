@@ -9,23 +9,41 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f3f4f6;
         }
 
         header {
             background-color: #333;
             color: #fff;
-            padding: 20px;
+            padding: 20px 0;
             text-align: center;
         }
 
+        h1 {
+            margin: 0;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
         h2 {
-            margin-top: 30px;
             color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
 
         li {
