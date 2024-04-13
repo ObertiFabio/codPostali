@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client REST</title>
+    <style>
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Client REST</h1>
+    <button id="getAllBtn">Get All</button>
+    <button id="getWithParamsBtn">Get with Parameters</button>
+    <button id="postBtn">POST</button>
+    <button id="putBtn">PUT</button>
+    <button id="deleteBtn">DELETE</button>
+
+    <!-- Optional div to display response -->
+    <div id="responseContainer"></div>
+
+    <script>
+            // Add event listeners to the buttons
+            document.getElementById('getAllBtn').addEventListener('click', getAll);
+            document.getElementById('getWithParamsBtn').addEventListener('click', getWithParams);
+            document.getElementById('postBtn').addEventListener('click', postData);
+            document.getElementById('putBtn').addEventListener('click', putData);
+            document.getElementById('deleteBtn').addEventListener('click', deleteData);
+
+            // Function to handle "Get All" button click
+            function getAll() {
+                fetch("/get-all-caps", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Errore: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Manipola i dati ottenuti
+                console.log("Dati ottenuti:", data);
+            })
+            .catch(error => {
+                console.error("Errore nella richiesta:", error);
+            });
+            }
+
+            // Function to handle "Get with Parameters" button click
+        function getWithParams() {
+                const searchParam = document.getElementById("searchParam").value;
+            fetch(`/search-by-cap?cap=${searchParam}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Manipola i dati ottenuti
+                console.log("Dati ottenuti:", data);
+            })
+            .catch(error => {
+                console.error("Errore nella richiesta:", error);
+            });
+        }
+
+            // Function to handle "POST" button click
+        function postData() {
+                const newData = {
+                cap: document.getElementById("newCap").value,
+                provincia: document.getElementById("newProvincia").value
+            };
+            fetch("/add-cap", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(newData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Manipola i dati ottenuti
+                console.log("Dati ottenuti:", data);
+            })
+            .catch(error => {
+                console.error("Errore nella richiesta:", error);
+            });
+        }
+
+            // Function to handle "PUT" button click
+        function putData() {
+                const updatedData = {
+                cap: document.getElementById("updatedCap").value,
+                provincia: document.getElementById("updatedProvincia").value
+            };
+            const idToUpdate = document.getElementById("idToUpdate").value;
+            fetch(`/update-cap/${idToUpdate}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(updatedData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Manipola i dati ottenuti
+                console.log("Dati ottenuti:", data);
+            })
+            .catch(error => {
+                console.error("Errore nella richiesta:", error);
+            });
+        }
+
+            // Function to handle "DELETE" button click
+        function deleteData() {
+                const idToDelete = document.getElementById("idToDelete").value;
+            fetch(`/delete-cap/${idToDelete}`, {
+                method: "DELETE",
+                headers: {
+                    Accept: "application/json"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Errore: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Manipola i dati ottenuti
+                console.log("Dati ottenuti:", data);
+            })
+            .catch(error => {
+                console.error("Errore nella richiesta:", error);
+            });
+        }
+    </script>
+</body>
+</html>
