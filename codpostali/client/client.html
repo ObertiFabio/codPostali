@@ -19,7 +19,10 @@
     <button id="deleteBtn">DELETE</button>
 
     <!-- Optional div to display response -->
-    <div id="responseContainer"></div>
+    <div id="responseContainer">
+        <h2>Response</h2>
+        <pre id="response"></pre>
+    </div>
 
     <script>
         // Add event listeners to the buttons
@@ -34,18 +37,18 @@
             fetch("./getAllCaps.php", {
                 method: "GET",
                 headers: {
-                    Accept: "application/json"
+                    Accept: "text/html"
                 }
             })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Errore: ${response.status}`);
                 }
-                return response.json();
+                return response.text(); // Otteniamo il testo HTML invece dei dati JSON
             })
-            .then(data => {
-                // Manipola i dati ottenuti
-                console.log("Dati ottenuti:", data);
+            .then(html => {
+                // Inseriamo il testo HTML nella pagina
+                document.getElementById("responseContainer").innerHTML = html;
             })
             .catch(error => {
                 console.error("Errore nella richiesta:", error);
@@ -54,18 +57,17 @@
 
         // Function to handle "Get with Parameters" button click
         function getWithParams() {
-            const searchParam = prompt("Inserisci il CAP:");
+            const searchParam = prompt("Inserisci il CAP da cercare:");
             if (searchParam !== null) {
                 fetch(`./searchByCap.php?cap=${searchParam}`, {
                     method: "GET",
                     headers: {
-                        Accept: "application/json"
+                        Accept: "text/html"
                     }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    // Manipola i dati ottenuti
-                    console.log("Dati ottenuti:", data);
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("responseContainer").innerHTML = html;
                 })
                 .catch(error => {
                     console.error("Errore nella richiesta:", error);
@@ -86,20 +88,19 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Accept: "application/json"
+                        Accept: "text/html"
                     },
                     body: JSON.stringify(newData)
                 })
-                .then(response => response.json())
-                .then(data => {
-                    // Manipola i dati ottenuti
-                    console.log("Dati ottenuti:", data);
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("responseContainer").innerHTML = html;
                 })
                 .catch(error => {
                     console.error("Errore nella richiesta:", error);
                 });
             }
-        }
+}
 
         // Function to handle "PUT" button click
         function putData() {
@@ -140,18 +141,12 @@
                 fetch(`./deleteCap.php?id=${idToDelete}`, {
                     method: "DELETE",
                     headers: {
-                        Accept: "application/json"
+                        Accept: "text/html"
                     }
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Errore: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Manipola i dati ottenuti
-                    console.log("Dati ottenuti:", data);
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("responseContainer").innerHTML = html;
                 })
                 .catch(error => {
                     console.error("Errore nella richiesta:", error);

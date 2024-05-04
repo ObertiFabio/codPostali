@@ -1,5 +1,5 @@
 <?php
-// Connessione al database
+// Connessione al database (assicurati di includere questo codice in ciascun file)
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -11,23 +11,25 @@ if ($conn->connect_error) {
     die("Connessione fallita: " . $conn->connect_error);
 }
 
-// Query per ottenere tutti i CAP e le Province
+// Query per selezionare tutti i record dei CAP e delle province
 $sql = "SELECT * FROM cap_provincia";
 $result = $conn->query($sql);
 
-// Controlla se ci sono risultati
 if ($result->num_rows > 0) {
-    // Crea un array per i risultati
-    $caps = array();
+    // Inizia la tabella HTML
+    echo "<table>";
+    echo "<tr><th>ID</th><th>CAP</th><th>Provincia</th></tr>";
+    // Output dei dati in una tabella HTML
     while($row = $result->fetch_assoc()) {
-        // Aggiungi ogni riga all'array
-        $caps[] = $row;
+        echo "<tr>";
+        echo "<td>".$row['id']."</td>";
+        echo "<td>".$row['cap']."</td>";
+        echo "<td>".$row['provincia']."</td>";
+        echo "</tr>";
     }
-    // Restituisci i risultati come JSON
-    header('Content-Type: application/json');
-    echo json_encode($caps);
+    // Chiudi la tabella HTML
+    echo "</table>";
 } else {
-    // Se non ci sono risultati, restituisci un messaggio di errore
     echo "Nessun risultato trovato.";
 }
 
